@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,16 +11,10 @@ namespace ArtemHuyaritKod
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private bool check = true;
-        private bool ChAnsw = false;
-        private string CurrentSign;
-        private string CurrentCont;
-        private string Answer;
-        private string ot;
-        private string Temp;
-
-        private readonly List<string> SignList = new() {"/", "*", "-", "+"};
+        private string leftOp = "";
+        private string RightOp = "";
+        private string Operation = "";
+        private readonly List<string> SignList = new() { "/", "*", "-", "+" };
 
         public MainWindow()
         {
@@ -34,9 +29,121 @@ namespace ArtemHuyaritKod
             }
         }
 
+        
+
+        private void MyClick(object sender, RoutedEventArgs e)
+        {
+            string Str1 = (string)((Button)e.OriginalSource).Content;
+            int Num;
+            bool Result = Int32.TryParse(Str1, out Num);
+
+            if (Result == true)
+            {
+                if (Operation == "")
+                {
+                    if (TB2.Text == "0")
+                    {
+                        leftOp = Str1;
+                        TB2.Text = Str1;
+                    }
+                    else
+                    {
+                        leftOp += Str1;
+                        TB2.Text = leftOp;
+                    }
+                }
+                else
+                {
+                    RightOp += Str1;
+                    TB2.Text = RightOp;
+                }
+            }
+            else
+            {
+                
+                switch (Str1)
+                {
+                    case "=":
+                        if (TB1.Text.Contains('='))
+                        {
+                            TB1.Text = leftOp + Operation + RightOp;
+                            leftOp = new DataTable().Compute(TB1.Text, null).ToString().Replace(',', '.');
+                            TB1.Text += Str1;
+                            TB2.Text = leftOp;
+                        }
+                        else
+                        {
+                            TB1.Text += RightOp;
+                            leftOp = new DataTable().Compute(TB1.Text, null).ToString().Replace(',', '.');
+                            TB1.Text +=Str1;
+                            TB2.Text = leftOp;
+                        }
+                        
+
+                        break;
+
+                    case ".":
+                        break;
+
+                    case "C":
+                        TB1.Text = "";
+                        TB2.Text = "0";
+                        Operation = "";
+                        leftOp = "";
+                        RightOp = "";
+                        break;
+
+                    case "+/-":
+                        break;
+
+                    case "+" or "-" or "*" or "/":
+                        Operation = Str1;
+                        if (RightOp == "")
+                        {
+                            foreach(string Sg in SignList)
+                            {
+                                TB1.Text = TB1.Text.Replace(Sg, Operation);
+                            }
+                        }
+                        
+                        if (TB1.Text == "")
+                        {
+                            TB1.Text = TB2.Text + Operation;
+                        }
+                        break;
+                }
+            }
 
 
-        private void Mutch(string MyStr)
+        }
+
+
+       /*private bool check = true;
+        private bool ChAnsw = false;
+        private string CurrentSign;
+        private string CurrentCont;
+        private string Answer;
+        private string ot;
+        private string Temp;
+
+        private readonly List<string> SignList = new() {"/", "*", "-", "+"};*/
+
+       /* public MainWindow()
+        {
+            InitializeComponent();
+
+            foreach (object btn in MyGrid.Children)
+            {
+                if (btn is Button)
+                {
+                    ((Button)btn).Click += MyClick;
+                }
+            }
+        }*/
+
+
+
+        /*private void Mutch(string MyStr)
         {
 
 
@@ -81,10 +188,10 @@ namespace ArtemHuyaritKod
                 check = false;
             }
             Temp += MyStr;
-        }
+        }*/
 
 
-        private void MResult(string TempStr)
+        /*private void MResult(string TempStr)
         {
             if (TB1.Text.Contains('='))
             {
@@ -104,9 +211,9 @@ namespace ArtemHuyaritKod
             }
             ChAnsw = true;
             Temp = "";
-        }
+        }*/
 
-        private void Clear()
+        /*private void Clear()
         {
             TB1.Text = "";
             TB2.Text = "0";
@@ -115,9 +222,9 @@ namespace ArtemHuyaritKod
             CurrentCont = "";
             CurrentSign = "";
             Temp = "";
-        }
+        }*/
 
-        private void MyClick(object sender, RoutedEventArgs e)
+        /*private void MyClick(object sender, RoutedEventArgs e)
         {
 
             string Str1 = (string)((Button)e.OriginalSource).Content;
@@ -188,6 +295,6 @@ namespace ArtemHuyaritKod
                     TB3.Text = Temp + " index :" + (Temp.IndexOf(Str1) + 1) + " lenght :" + Temp.Length;
                     break;
             }
-        }
+        }*/
     }
 }
