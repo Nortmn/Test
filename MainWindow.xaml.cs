@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,16 +11,7 @@ namespace ArtemHuyaritKod
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private bool check = true;
-        private bool ChAnsw = false;
-        private string CurrentSign;
-        private string CurrentCont;
-        private string Answer;
-        private string ot;
-        private string Temp;
-
-        private readonly List<string> SignList = new() {"/", "*", "-", "+"};
+        private readonly List<string> SignList = new() { "/", "*", "-", "+" };
 
         public MainWindow()
         {
@@ -34,9 +26,71 @@ namespace ArtemHuyaritKod
             }
         }
 
+        
+
+        private void MyClick(object sender, RoutedEventArgs e)
+        {
+            string Str1 = (string)((Button)e.OriginalSource).Content;
+            int Num;
+
+            switch (Str1)
+            {
+                case "+/-":
+                    
+                    break;
+
+                case "+" or "-" or "/" or "*":
+
+                    break;
+
+                case ".":
+
+                    break;
+
+                case "C":
+
+                    break;
+
+                case "=":
+
+                    break;
+
+                default:
+                    bool Check = Int32.TryParse(Str1, out Num);
 
 
-        private void Mutch(string MyStr)
+                    break;
+            }
+
+        }
+
+
+       /*private bool check = true;
+        private bool ChAnsw = false;
+        private string CurrentSign;
+        private string CurrentCont;
+        private string Answer;
+        private string ot;
+        private string Temp;
+
+        private readonly List<string> SignList = new() {"/", "*", "-", "+"};*/
+
+       /* public MainWindow()
+        {
+            InitializeComponent();
+
+            foreach (object btn in MyGrid.Children)
+            {
+                if (btn is Button)
+                {
+                    ((Button)btn).Click += MyClick;
+                }
+            }
+        }*/
+
+
+
+        /*private void Mutch(string MyStr)
         {
 
 
@@ -81,10 +135,10 @@ namespace ArtemHuyaritKod
                 check = false;
             }
             Temp += MyStr;
-        }
+        }*/
 
 
-        private void MResult(string TempStr)
+        /*private void MResult(string TempStr)
         {
             if (TB1.Text.Contains('='))
             {
@@ -104,9 +158,9 @@ namespace ArtemHuyaritKod
             }
             ChAnsw = true;
             Temp = "";
-        }
+        }*/
 
-        private void Clear()
+        /*private void Clear()
         {
             TB1.Text = "";
             TB2.Text = "0";
@@ -115,9 +169,9 @@ namespace ArtemHuyaritKod
             CurrentCont = "";
             CurrentSign = "";
             Temp = "";
-        }
+        }*/
 
-        private void MyClick(object sender, RoutedEventArgs e)
+        /*private void MyClick(object sender, RoutedEventArgs e)
         {
 
             string Str1 = (string)((Button)e.OriginalSource).Content;
@@ -188,6 +242,6 @@ namespace ArtemHuyaritKod
                     TB3.Text = Temp + " index :" + (Temp.IndexOf(Str1) + 1) + " lenght :" + Temp.Length;
                     break;
             }
-        }
+        }*/
     }
 }
