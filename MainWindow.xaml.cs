@@ -11,6 +11,9 @@ namespace ArtemHuyaritKod
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string leftOp = "";
+        private string RightOp = "";
+        private string Operation = "";
         private readonly List<string> SignList = new() { "/", "*", "-", "+" };
 
         public MainWindow()
@@ -32,35 +35,85 @@ namespace ArtemHuyaritKod
         {
             string Str1 = (string)((Button)e.OriginalSource).Content;
             int Num;
+            bool Result = Int32.TryParse(Str1, out Num);
 
-            switch (Str1)
+            if (Result == true)
             {
-                case "+/-":
-                    
-                    break;
-
-                case "+" or "-" or "/" or "*":
-
-                    break;
-
-                case ".":
-
-                    break;
-
-                case "C":
-
-                    break;
-
-                case "=":
-
-                    break;
-
-                default:
-                    bool Check = Int32.TryParse(Str1, out Num);
-
-
-                    break;
+                if (Operation == "")
+                {
+                    if (TB2.Text == "0")
+                    {
+                        leftOp = Str1;
+                        TB2.Text = Str1;
+                    }
+                    else
+                    {
+                        leftOp += Str1;
+                        TB2.Text = leftOp;
+                    }
+                }
+                else
+                {
+                    RightOp += Str1;
+                    TB2.Text = RightOp;
+                }
             }
+            else
+            {
+                
+                switch (Str1)
+                {
+                    case "=":
+                        if (TB1.Text.Contains('='))
+                        {
+                            TB1.Text = leftOp + Operation + RightOp;
+                            leftOp = new DataTable().Compute(TB1.Text, null).ToString().Replace(',', '.');
+                            TB1.Text += Str1;
+                            TB2.Text = leftOp;
+                        }
+                        else
+                        {
+                            TB1.Text += RightOp;
+                            leftOp = new DataTable().Compute(TB1.Text, null).ToString().Replace(',', '.');
+                            TB1.Text +=Str1;
+                            TB2.Text = leftOp;
+                        }
+                        
+
+                        break;
+
+                    case ".":
+                        break;
+
+                    case "C":
+                        TB1.Text = "";
+                        TB2.Text = "0";
+                        Operation = "";
+                        leftOp = "";
+                        RightOp = "";
+                        break;
+
+                    case "+/-":
+                        break;
+
+                    case "+" or "-" or "*" or "/":
+                        Operation = Str1;
+                        if (RightOp == "")
+                        {
+                            foreach(string Sg in SignList)
+                            {
+                                TB1.Text = TB1.Text.Replace(Sg, Operation);
+                            }
+                        }
+                        
+                        if (TB1.Text == "")
+                        {
+                            TB1.Text = TB2.Text + Operation;
+                        }
+                        break;
+                }
+            }
+
 
         }
 
